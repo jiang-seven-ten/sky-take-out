@@ -46,6 +46,7 @@ public class EmployeeController {
 
 
         //登录成功后，生成jwt令牌
+        //将用户的id存入claims，然后通过createJWT把用户id再存入token中
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
         String token = JwtUtil.createJWT(
