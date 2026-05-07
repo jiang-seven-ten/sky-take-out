@@ -120,9 +120,27 @@ public class EmployeeController {
     }
 
 
+    @GetMapping("/{id}")
+    public Result<Employee> getInfo(@PathVariable Integer id){
+        log.info("根据id查询员工信息:{}",id);
+        Employee employee = employeeService.getInfo(id);
+        employee.setPassword("******");
+        return Result.success(employee);
+    }
 
 
-
+    /**
+     * 更新员工信息
+     *
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("更新员工信息:{}",employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 
 
 
