@@ -93,6 +93,11 @@ public class EmployeeController {
     }
 
 
+     /* 分页查询员工信息
+     *
+     * @param employeePageQueryDTO
+     * @return
+     */
     @GetMapping("/page")
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
         log.info("分页查询员工信息参数:{}", employeePageQueryDTO);
@@ -101,8 +106,18 @@ public class EmployeeController {
     }
 
 
-
-
+    /**
+     * 启用/停用员工
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status,Long id){
+        log.info("启用/停用员工信息:{} {}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+    }
 
 
 
