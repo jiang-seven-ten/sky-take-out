@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AutoFillAspect {
 
+    //我们在切面类做的工作只是把数据自动填充到对象的属性中，但是当我们把对象的数据插入到数据库时，需要在sql中写上creat_Time....,不然插不进去
+
     @Around("@annotation(autoFill)")
     public Object autoFill(ProceedingJoinPoint joinPoint, AutoFill autoFill) throws Throwable {
         log.info("开始自动填充数据");
