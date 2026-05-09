@@ -38,6 +38,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      *
      * @param registry
      */
+    //设置要拦截的方法，然后interceptor拦截器会拦截到这些方法，运行preHandle方法(在目标方法运行前执行)
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)

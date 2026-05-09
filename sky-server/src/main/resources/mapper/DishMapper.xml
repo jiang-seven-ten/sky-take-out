@@ -11,6 +11,17 @@
     </insert>
 
 
+
+    <delete id="deleteBatch">
+        delete from dish where id in
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+    </delete>
+
+
+
+
     <!-- 查询dish表中的所有字段并且自动封装到DishVO中，多余的字段不会封装也不会报错 -->
     <select id="list" resultType="com.sky.vo.DishVO">
         select d.*,c.name as categoryName
