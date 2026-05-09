@@ -11,7 +11,6 @@
     </insert>
 
 
-
     <delete id="deleteBatch">
         delete from dish where id in
             <foreach collection="ids" item="id" separator="," open="(" close=")">
@@ -20,6 +19,37 @@
     </delete>
 
 
+<!--    根据菜品id更新菜品信息-->
+    <update id="updateById">
+        update dish
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
 
     <!-- 查询dish表中的所有字段并且自动封装到DishVO中，多余的字段不会封装也不会报错 -->
@@ -33,4 +63,39 @@
         </where>
         order by d.create_time desc
     </select>
+
+
+
+
+    <resultMap id="dishVOResultMap" type="com.sky.vo.DishVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="description" property="description"/>
+        <result column="image" property="image"/>
+        <result column="status" property="status"/>
+        <result column="update_time" property="updateTime"/>
+
+        <result column="category_id" property="categoryId"/>
+        <result column="categoryName" property="categoryName"/>
+
+        <!-- 讲一下这里的column属性，给column属性赋值的字段，我们会拿着这个字段进行子查询(这里没有子查询)，子查询我们一般写在select属性 -->
+        <!-- 再把查询到的结果封装到flavors属性中 -->
+        <collection property="flavors" column="id" ofType="com.sky.entity.DishFlavor">
+            <id column="df_id" property="id"/>
+            <result column="df_name" property="name"/>
+            <result column="df_value" property="value"/>
+            <result column="df_dish_id" property="dishId"/>
+        </collection>
+    </resultMap>
+
+    <select id="getInfoById" resultMap="dishVOResultMap">
+        select d.*,c.name as categoryName,df.id as df_id,df.name as df_name, df.dish_id as df_dish_id,df.value as df_value
+        from dish as d left join dish_flavor as df
+            on d.id=df.dish_id
+        left join category as c on d.category_id = c.id
+        where d.id=#{id}
+    </select>
+
+
 </mapper>

@@ -60,4 +60,30 @@ public class DishController {
     }
 
 
+
+    /**
+     * 根据id查询菜品
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result<DishVO> getInfoById(@PathVariable Long id){
+        log.info("根据id查询菜品：{}", id);
+        DishVO dishVO=dishService.getInfoById(id);
+        return Result.success(dishVO);
+    }
+
+
+    @PutMapping
+    public Result update(@RequestBody DishDTO dishDTO){
+        log.info("更新菜品：{}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+        return Result.success();
+    }
+
+
+
+
+
+
 }

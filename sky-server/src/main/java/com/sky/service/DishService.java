@@ -14,4 +14,8 @@ public interface DishService {
     PageResult<DishVO> page(DishPageQueryDTO dishPageQueryDTO);
 
     void delete(List<Long> ids);
+
+    DishVO getInfoById(Long id);
+
+    void updateWithFlavor(DishDTO dishDTO);
 }
