@@ -74,6 +74,11 @@ public class DishController {
     }
 
 
+    /**
+     * 更新菜品
+     * @param dishDTO
+     * @return
+     */
     @PutMapping
     public Result update(@RequestBody DishDTO dishDTO){
         log.info("更新菜品：{}", dishDTO);

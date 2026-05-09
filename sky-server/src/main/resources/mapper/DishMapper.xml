@@ -88,7 +88,7 @@
             <result column="df_dish_id" property="dishId"/>
         </collection>
     </resultMap>
-
+<!--    上面是自动配置的封装-->
     <select id="getInfoById" resultMap="dishVOResultMap">
         select d.*,c.name as categoryName,df.id as df_id,df.name as df_name, df.dish_id as df_dish_id,df.value as df_value
         from dish as d left join dish_flavor as df
