@@ -9,4 +9,17 @@
         values
         (#{name},#{categoryId},#{price},#{description},#{image},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
     </insert>
+
+
+    <!-- 查询dish表中的所有字段并且自动封装到DishVO中，多余的字段不会封装也不会报错 -->
+    <select id="list" resultType="com.sky.vo.DishVO">
+        select d.*,c.name as categoryName
+        from dish as d left join category as c on d.category_id=c.id
+        <where>
+            <if test="name!=null and name!=''">and d.name like concat('%',#{name},'%')</if>
+            <if test="categoryId!=null">and d.category_id=#{categoryId}</if>
+            <if test="status!=null">and d.status=#{status}</if>
+        </where>
+        order by d.create_time desc
+    </select>
 </mapper>
