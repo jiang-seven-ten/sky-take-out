@@ -12,5 +12,29 @@
     </insert>
 
 
+    <select id="page" resultType="com.sky.vo.SetmealVO">
+        select s.id,s.category_id,s.name,s.price,s.status,s.description,s.image,s.update_time,c.name as categoryName
+        from setmeal as s left join category as c on s.category_id = c.id
+        <where>
+            <if test="categoryId != null">
+                and s.category_id = #{categoryId}
+            </if>
+            <if test="name != null">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="status != null">
+                and s.status = #{status}
+            </if>
+        </where>
+        order by s.update_time desc
+    </select>
+
+
+    <delete id="deleteBatchIds">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

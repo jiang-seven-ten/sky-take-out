@@ -71,7 +71,7 @@ public class DishServiceImpl implements DishService {
      */
     @Override
     public PageResult<DishVO> page(DishPageQueryDTO dishPageQueryDTO) {
-        log.info("分页查询菜品：{}", dishPageQueryDTO);
+
         PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
 
         Page<DishVO> p=dishMapper.list(dishPageQueryDTO);
@@ -161,7 +161,7 @@ public class DishServiceImpl implements DishService {
     public List<Dish> getByCategoryId(Long categoryId) {
         Dish dish=Dish.builder()
                 .categoryId(categoryId)
-                .status(StatusConstant.DISABLE)
+                .status(StatusConstant.ENABLE)
                 .build();
         return dishMapper.getByCategoryId(dish);
     }
