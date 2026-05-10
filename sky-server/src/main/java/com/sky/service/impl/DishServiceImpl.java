@@ -49,7 +49,6 @@ public class DishServiceImpl implements DishService {
     @Transactional
     @Override
     public void saveWithFlavor(DishDTO dishDTO) {
-        log.info("新增菜品：{}", dishDTO);
 
         Dish dish=new Dish();
         BeanUtils.copyProperties(dishDTO,dish);
@@ -151,6 +150,20 @@ public class DishServiceImpl implements DishService {
             });
         }
         dishFlavorMapper.insertBatch(flavorList);
+    }
+
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<Dish> getByCategoryId(Long categoryId) {
+        Dish dish=Dish.builder()
+                .categoryId(categoryId)
+                .status(StatusConstant.DISABLE)
+                .build();
+        return dishMapper.getByCategoryId(dish);
     }
 
 

@@ -44,4 +44,6 @@ public interface DishMapper {
 
     @AutoFill(value = OperationType.UPDATE)
     void updateById(Dish dish);
+
+    List<Dish> getByCategoryId(Dish dish);
 }
