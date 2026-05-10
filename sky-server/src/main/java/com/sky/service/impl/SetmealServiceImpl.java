@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -75,6 +76,34 @@ public class SetmealServiceImpl implements SetmealService {
         });
         setmealMapper.deleteBatchIds(ids);
         setmealDishMapper.deleteBatch(ids);
+    }
+
+
+
+
+    @Override
+    public SetmealVO getInfoById(Long id) {
+        return setmealMapper.getInfoById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateWithDish(SetmealDTO setmealDTO) {
+        Setmeal setmeal =new Setmeal();
+        BeanUtils.copyProperties(setmealDTO,setmeal);
+
+        setmealMapper.update(setmeal);
+
+        setmealDishMapper.deleteBatch(Arrays.asList(setmealDTO.getId()));
+
+        List<SetmealDish> setmealDishes=setmealDTO.getSetmealDishes();
+
+        if(!setmealDishes.isEmpty()) {
+            for (SetmealDish sd : setmealDishes) {
+                sd.setSetmealId(setmealDTO.getId());
+            }
+            setmealDishMapper.insertBatch(setmealDishes);
+        }
     }
 
 

@@ -32,4 +32,9 @@ public interface SetmealMapper {
     Setmeal getById(Long id);
 
     void deleteBatchIds(List<Long> ids);
+
+    SetmealVO getInfoById(Long id);
+
+    @AutoFill(value = OperationType.UPDATE)
+    void update(Setmeal setmeal);
 }

@@ -38,12 +38,28 @@ public class SetmealController {
 
 
     @DeleteMapping
-    public Result delete(@RequestParam List<Long> ids){
-        log.info("删除套餐根据ids：{}",ids);
+    public Result delete(@RequestParam List<Long> ids) {
+        log.info("删除套餐根据ids：{}", ids);
         setmealService.deleteByIds(ids);
         return Result.success();
     }
 
+
+
+    @GetMapping("/{id}")
+    public Result<SetmealVO> getInfoById(@PathVariable Long id){
+        log.info("根据id查询回显信息{}",id);
+        SetmealVO setmealVO=setmealService.getInfoById(id);
+        return Result.success(setmealVO);
+    }
+
+
+    @PutMapping
+    public Result updateWithDish(@RequestBody SetmealDTO setmealDTO){
+        log.info("更新套餐：{}", setmealDTO);
+        setmealService.updateWithDish(setmealDTO);
+        return Result.success();
+    }
 
 
 
