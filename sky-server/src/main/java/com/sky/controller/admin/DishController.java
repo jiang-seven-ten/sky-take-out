@@ -88,7 +88,11 @@ public class DishController {
     }
 
 
-
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/list")
     public Result<List<Dish>> getByCategoryId(Long categoryId){
         log.info("根据分类id查询菜品：{}", categoryId);
