@@ -7,6 +7,7 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -95,7 +96,7 @@ public class DishController {
      */
     @GetMapping("/list")
     public Result<List<Dish>> getByCategoryId(Long categoryId){
-        log.info("根据分类id查询菜品：{}", categoryId);
+        log.info("新增套餐菜品时，根据分类id查询菜品：{}", categoryId);
         List<Dish> list=dishService.getByCategoryId(categoryId);
         return Result.success(list);
     }
@@ -103,7 +104,18 @@ public class DishController {
 
 
 
-
+    /**
+     * 菜品的起售和停售
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("status/{status}")
+    public Result<String> startOrStop(@PathVariable Integer status,Long id) {
+        log.info("菜品的起售和停售：{} {}", status,id);
+        dishService.startOrStop(status, id);
+        return Result.success();
+    }
 
 
 

@@ -50,7 +50,7 @@
             <result column="sd_copies" property="copies"/>
         </collection>
     </resultMap>
-
+    <!--    上面是自动配置的封装-->
     <select id="getInfoById" resultMap="setmealVoResultMap">
         select s.*,c.name as categoryName,
                sd.id as sd_id, sd.name as sd_name, sd.dish_id as sd_dish_id,

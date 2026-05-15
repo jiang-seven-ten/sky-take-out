@@ -111,6 +111,7 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
+    @Transactional
     public void startOrStop(Integer status, Long id) {
         if(status==StatusConstant.ENABLE){
             List<Dish> dishList=dishMapper.getBySetmealId(id);
