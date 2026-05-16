@@ -49,4 +49,7 @@ public interface DishMapper {
 
     @Select("select a.* from dish a left join setmeal_dish sd on a.id = sd.dish_id where sd.setmeal_id = #{id}")
     List<Dish> getBySetmealId(Long id);
+
+    //根据分类id查询菜品，并查询口味
+    List<DishVO> getDishWithFlavorByCategoryId(Dish dish);
 }

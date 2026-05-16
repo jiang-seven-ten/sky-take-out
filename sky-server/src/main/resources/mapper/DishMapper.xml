@@ -114,4 +114,14 @@
     </select>
 
 
+    <!--根据分类id查询菜品，并查询口味-->
+    <select id="getDishWithFlavorByCategoryId" resultMap="dishVOResultMap">
+        select d.*,c.name as categoryName,df.id as df_id,df.name as df_name, df.dish_id as df_dish_id,df.value as df_value
+        from dish as d left join dish_flavor as df
+            on d.id=df.dish_id
+        left join category as c on d.category_id = c.id
+        where d.category_id=#{categoryId}
+          and d.status=#{status}
+    </select>
+
 </mapper>

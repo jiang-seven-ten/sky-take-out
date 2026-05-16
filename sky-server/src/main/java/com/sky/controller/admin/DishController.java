@@ -96,7 +96,7 @@ public class DishController {
      */
     @GetMapping("/list")
     public Result<List<Dish>> getByCategoryId(Long categoryId){
-        log.info("新增套餐菜品时，根据分类id查询菜品：{}", categoryId);
+        log.info("新增套餐菜品时，根据分类id查询菜品，但不查询口味：{}", categoryId);
         List<Dish> list=dishService.getByCategoryId(categoryId);
         return Result.success(list);
     }
