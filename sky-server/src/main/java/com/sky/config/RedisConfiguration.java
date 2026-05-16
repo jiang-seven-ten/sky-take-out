@@ -1,6 +1,7 @@
 package com.sky.config;
 
-import com.fasterxml.jackson.databind.JsonSerializable;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,21 +15,26 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfiguration {
 
     @Bean
-    public RedisTemplate redisTemplate(RedisConnectionFactory factory){
+    public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
         log.info("开始创建redis模板对象...");
 
         RedisTemplate redisTemplate = new RedisTemplate();
-        //设置连接工厂对象
         redisTemplate.setConnectionFactory(factory);
-
         //设置key的序列化器
         redisTemplate.setKeySerializer(new StringRedisSerializer());
 
-        //设置value的序列化器
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setHashKeySerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        return redisTemplate;
+        //创建ObjectMapper并注册JavaTimeModule支持Java 8时间类型
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
+
+
+
+        GenericJackson2JsonRedisSerializer jsonSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+        redisTemplate.setValueSerializer(jsonSerializer);
+        redisTemplate.setHashKeySerializer(jsonSerializer);
+        redisTemplate.setHashValueSerializer(jsonSerializer);
+
+        return redisTemplate;
     }
 }

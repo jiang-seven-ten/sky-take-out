@@ -18,9 +18,11 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -140,22 +143,21 @@ public class DishServiceImpl implements DishService {
     public void updateWithFlavor(DishDTO dishDTO) {
         log.info("更新菜品：{}", dishDTO);
 
-        Dish dish=new Dish();
-        BeanUtils.copyProperties(dishDTO,dish);
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO, dish);
         dishMapper.updateById(dish);
         //删除菜品口味
         dishFlavorMapper.deleteBatch(Arrays.asList(dishDTO.getId()));
 
-        List<DishFlavor> flavorList=dishDTO.getFlavors();
+        List<DishFlavor> flavorList = dishDTO.getFlavors();
 
-        if(flavorList!=null&&!flavorList.isEmpty()){
-            flavorList.forEach(fl->{
+        if (flavorList != null && !flavorList.isEmpty()) {
+            flavorList.forEach(fl -> {
                 fl.setDishId(dish.getId());
             });
+            dishFlavorMapper.insertBatch(flavorList);
         }
-        dishFlavorMapper.insertBatch(flavorList);
     }
-
     /**
      * 根据分类id查询菜品
      * @param categoryId
