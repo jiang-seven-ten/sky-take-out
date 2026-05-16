@@ -39,7 +39,7 @@ public class DishController {
         dishService.saveWithFlavor(dishDTO);
 
         //新增菜品后，删除缓存中的菜品列表
-        String key="dish_list_"+dishDTO.getCategoryId();
+        String key="dish_"+dishDTO.getCategoryId();
         redisTemplate.delete(key);
 
 

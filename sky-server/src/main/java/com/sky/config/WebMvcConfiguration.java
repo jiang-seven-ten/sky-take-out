@@ -64,41 +64,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
 
 
-
-    /**
-     * 通过knife4j生成接口文档
-     * @return
-     */
-    @Bean
-    public Docket docket() {
-        ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
-                .version("2.0")
-                .description("苍穹外卖项目接口文档")
-                .build();
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
-                .paths(PathSelectors.any())
-                .build();
-        return docket;
-    }
-
-
-
-    /**
-     * 设置静态资源映射
-     * @param registry
-     */
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
-
-
-
    //扩展Spring MVC的消息转换器，对后端返回前端的数据进行统一的转换处理，处理的规则为消息转换器这个容器(converters)中的规则（所以，我们自定义的ObjectMapper要存入消息转换器）
    //容器是converters，容器中有多个消息转化器(MappingJackson2HttpMessageConverter,本质上都是HttpMessageConverter的实现类)，这些消息转换器持有我们自定义的ObjectMapper，从而实现转换
     @Override

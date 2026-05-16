@@ -63,12 +63,12 @@ public class DishServiceImpl implements DishService {
         dishMapper.insert(dish);
 
         List<DishFlavor> flavorList=dishDTO.getFlavors();
-        if(flavorList!=null&&!flavorList.isEmpty()){
-            flavorList.forEach(fl->{
+        if(flavorList!=null&&!flavorList.isEmpty()) {
+            flavorList.forEach(fl -> {
                 fl.setDishId(dish.getId());
             });
+            dishFlavorMapper.insertBatch(flavorList);
         }
-        dishFlavorMapper.insertBatch(flavorList);
     }
 
     /**

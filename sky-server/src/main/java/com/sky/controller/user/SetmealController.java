@@ -9,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ public class SetmealController {
 
     @Autowired
     private SetmealService setmealService;
-
+    @Autowired
+    private RedisCacheManager cacheManager;
 
 
     /**
@@ -32,6 +35,7 @@ public class SetmealController {
      * @param categoryId
      * @return
      */
+    @Cacheable(cacheNames="setmealCache",key="#categoryId")      //key:setmealCache::{id}
     @GetMapping("/list")
     public Result<List<Setmeal>> list(Long categoryId) {
         log.info("根据分类id查询套餐：{}", categoryId);
